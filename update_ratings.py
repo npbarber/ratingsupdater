@@ -39,6 +39,7 @@ def read_data_from_file(filename):
     result = {}
     fp = open(filename)
     csv_reader = csv.reader(fp, quotechar='"')
+    column_headers = csv_reader.next()
     for row in csv_reader:
         try:
             ayso_id = row[INDEX_AYSO_ID]
@@ -46,7 +47,7 @@ def read_data_from_file(filename):
             continue
         result[ayso_id] = row
     fp.close()
-    return result
+    return result, column_headers
 
 
 def update_target_data(src_data, target_data):
@@ -59,9 +60,10 @@ def update_target_data(src_data, target_data):
     return target_data
 
 
-def write_data_to_file(filename, data):
+def write_data_to_file(filename, data, headers):
     fp = open(filename, 'w')
     csv_writer = csv.writer(fp, quotechar='"')
+    csv_writer.writerow(headers)
     for ayso_id, details in data.items():
         csv_writer.writerow(details)
     fp.close()
@@ -69,10 +71,10 @@ def write_data_to_file(filename, data):
 
 def main():
     args = parse_args()
-    src_data = read_data_from_file(args.src)
-    target_data = read_data_from_file(args.target)
+    src_data, _ = read_data_from_file(args.src)
+    target_data, headers = read_data_from_file(args.target)
     updated = update_target_data(src_data, target_data)
-    write_data_to_file(args.out, updated)
+    write_data_to_file(args.out, updated, headers)
 
 
 if __name__ == '__main__':
