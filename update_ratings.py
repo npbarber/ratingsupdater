@@ -24,9 +24,12 @@ def parse_args():
         '--src',
         '-s',
         required=True,
-        help='csv file of player ratings to be updated')
+        help='csv file of players with new ratings')
     parser.add_argument(
-        '--target', '-t', required=True, help='csv file of new player ratings')
+        '--target',
+        '-t',
+        required=True,
+        help='csv file of the ratings that should be updated.')
     parser.add_argument(
         '--out',
         '-o',
