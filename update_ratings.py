@@ -55,10 +55,6 @@ def read_data_from_file(filename):
 
 def update_target_data(src_data, target_data):
     for src_ayso_id in src_data:
-        try:
-            target_data[src_ayso_id]
-        except KeyError:
-            continue
         target_data[src_ayso_id] = src_data[src_ayso_id]
     return target_data
 
